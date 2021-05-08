@@ -1,14 +1,35 @@
 // Desaturate is a simple plugin that desaturates image fills in Figma. 
 // Select any Frame or Vector object with an image fill and run the plugin.
+const IS_LOGGING_ENABLED = false;
+const ALLOWED_NODE_TYPES = [
+    "COMPONENT",
+    "COMPONENT_SET",
+    "ELLIPSE",
+    "FRAME",
+    "GROUP",
+    "INSTANCE",
+    "LINE",
+    "POLYGON",
+    "RECTANGLE",
+    "SLICE",
+    "STAR",
+    "VECTOR"
+];
 var numDesaturatedNodes = 0;
-if (figma.currentPage.selection.length > 0) {
-    for (const node of figma.currentPage.selection) {
-        desaturateNodeTree(node);
+try {
+    if (figma.currentPage.selection.length > 0) {
+        _log(figma.currentPage.selection);
+        for (const node of figma.currentPage.selection) {
+            desaturateNodeTree(node);
+        }
+        notifyStatus(numDesaturatedNodes);
     }
-    notifyStatus(numDesaturatedNodes);
+    else {
+        figma.notify("Select something to desaturate");
+    }
 }
-else {
-    figma.notify("Select something to desaturate");
+catch (error) {
+    _log(error);
 }
 figma.closePlugin();
 function notifyStatus(numDesaturatedNodes) {
@@ -20,6 +41,8 @@ function notifyStatus(numDesaturatedNodes) {
     }
 }
 function desaturateNodeTree(node) {
+    _log("Processing node tree: ");
+    _log(node);
     _desaturateNode(node); // Desaturate current level
     if ("children" in node) {
         for (const child of node.children) {
@@ -28,19 +51,43 @@ function desaturateNodeTree(node) {
     }
 }
 function _desaturateNode(node) {
-    if ("fills" in node) {
-        const fills = _clone(node.fills);
-        for (const fill of fills) {
-            _desaturateFill(fill);
+    if (isNodeAllowed(node)) {
+        _log("Desaturating node: ");
+        _log(node);
+        if ("fills" in node) {
+            const fills = _clone(node.fills);
+            if (Array.isArray(fills)) {
+                for (const fill of fills) {
+                    _desaturateFill(fill);
+                }
+            }
+            else {
+                _desaturateFill(fills);
+            }
+            node.fills = fills;
         }
-        node.fills = fills;
+    }
+    else {
+        _log("Skipping node because it is disallowed: " + node.type);
     }
 }
 function _desaturateFill(fill) {
-    if (fill.type === "IMAGE") {
+    _log("Desaturating fill: ");
+    _log(fill);
+    if ("type" in fill && fill.type === "IMAGE") {
         fill.filters.saturation = -1;
         numDesaturatedNodes++;
     }
+}
+function isNodeAllowed(node) {
+    return ALLOWED_NODE_TYPES.includes(node.type);
+}
+function _log(object) {
+    if (IS_LOGGING_ENABLED)
+        console.log(object);
+}
+function _logError(error) {
+    console.error(error);
 }
 function _clone(val) {
     const type = typeof val;
