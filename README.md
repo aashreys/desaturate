@@ -1,7 +1,7 @@
 # Desaturate
-A handy plugin for desaturating image fills in Figma. Just select any frame or vector object with an image fill and run the plugin for some black and white goodness.
+Desaturate is a Figma plugin that makes it easy to desaturate many image fills at once. Just select all the frames or images you want to desaturate and run the plugin. It automatically handles children image fills within groups and frames as well.
 
 ## Roadmap
-✅ Desaturate images in selected frames or vector objects<br>
-Frame and group traversal
-Publish on Figma community
+Desaturate images in selected frames or vector objects ✅<br>
+Frame and group traversal ✅<br>
+Publish on Figma community - submitted, pending approval
