@@ -1,6 +1,6 @@
 // Desaturate is a simple plugin that desaturates image fills in Figma. 
 // Select any Frame or Vector object with an image fill and run the plugin.
-const IS_LOGGING_ENABLED = true;
+const IS_LOGGING_ENABLED = false;
 const ALLOWED_NODE_TYPES = [
     "COMPONENT",
     "COMPONENT_SET",
