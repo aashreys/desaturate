@@ -30,7 +30,7 @@ try {
     }
 }
 catch (error) {
-    _log(error);
+    _logError(error);
 }
 figma.closePlugin();
 function notifyStatus(numDesaturatedNodes) {

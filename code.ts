@@ -33,7 +33,7 @@ try {
     notifyUI("Nothing selected. Select something to desaturate.");
   }
 } catch (error) {
-  _log(error);
+  _logError(error);
 }
 figma.closePlugin();
 
