@@ -15,6 +15,7 @@ const ALLOWED_NODE_TYPES = [
     "STAR",
     "VECTOR"
 ];
+const NOTIFICATION_TIME = 2500;
 var numDesaturatedNodes = 0;
 try {
     if (figma.currentPage.selection.length > 0) {
@@ -25,7 +26,7 @@ try {
         notifyStatus(numDesaturatedNodes);
     }
     else {
-        figma.notify("Nothing selected. Select something to desaturate.");
+        notifyUI("Nothing selected. Select something to desaturate.");
     }
 }
 catch (error) {
@@ -34,11 +35,14 @@ catch (error) {
 figma.closePlugin();
 function notifyStatus(numDesaturatedNodes) {
     if (numDesaturatedNodes > 0) {
-        figma.notify("Desaturated " + numDesaturatedNodes + " image " + (numDesaturatedNodes > 1 ? "fills" : "fill") + ".");
+        notifyUI("Desaturated " + numDesaturatedNodes + " image " + (numDesaturatedNodes > 1 ? "fills" : "fill") + ".");
     }
     else {
-        figma.notify("No image fills detected. Please check selection.");
+        notifyUI("No image fills detected. Please check selection.");
     }
+}
+function notifyUI(message) {
+    figma.notify(message, { timeout: NOTIFICATION_TIME });
 }
 function desaturateNodeTree(node) {
     _log("Processing node tree: ");
