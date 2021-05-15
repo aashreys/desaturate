@@ -25,7 +25,7 @@ try {
         notifyStatus(numDesaturatedNodes);
     }
     else {
-        figma.notify("Select something to desaturate");
+        figma.notify("Nothing selected. Select something to desaturate.");
     }
 }
 catch (error) {
@@ -34,10 +34,10 @@ catch (error) {
 figma.closePlugin();
 function notifyStatus(numDesaturatedNodes) {
     if (numDesaturatedNodes > 0) {
-        figma.notify("Desaturated " + numDesaturatedNodes + " image " + (numDesaturatedNodes > 1 ? "fills" : "fill"));
+        figma.notify("Desaturated " + numDesaturatedNodes + " image " + (numDesaturatedNodes > 1 ? "fills" : "fill") + ".");
     }
     else {
-        figma.notify("No image fills detected -  please check selection");
+        figma.notify("No image fills detected. Please check selection.");
     }
 }
 function desaturateNodeTree(node) {
