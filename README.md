@@ -4,7 +4,7 @@ Desaturate is a Figma plugin that makes it easy to desaturate many image fills a
 ## Roadmap
 * ✅ &nbsp; Desaturate images in selected frames or vector objects
 * ✅ &nbsp; Frame and group traversal
-* ✅ Publish on Figma community
+* ✅ &nbsp; Publish on Figma community
 * Update Readme
   *  Add Early Access section
   *  Add Reporting Bugs section
