@@ -1,11 +1,38 @@
 {
-  "name": "Desaturate",
-  "version": "1.0.0",
-  "description": "Your Figma plugin",
-  "main": "code.js",
-  "scripts": {
-    "build": "tsc -p tsconfig.json"
+  "dependencies": {
+    "@create-figma-plugin/utilities": "^2.1.4"
   },
-  "author": "",
-  "license": ""
+  "devDependencies": {
+    "@create-figma-plugin/build": "^2.1.4",
+    "@create-figma-plugin/tsconfig": "^2.1.4",
+    "@figma/plugin-typings": "1.45.0",
+    "typescript": "^4"
+  },
+  "scripts": {
+    "build": "build-figma-plugin --typecheck --minify",
+    "watch": "build-figma-plugin --typecheck --watch"
+  },
+  "figma-plugin": {
+    "editorType": [
+      "figma"
+    ],
+    "id": "972353621057384319",
+    "name": "Desaturate",
+    "menu": [
+      {
+        "name": "Images",
+        "main": {
+          "src": "src/main.ts",
+          "handler": "desaturateImages"
+        }
+      },
+      {
+        "name": "Frames & Groups",
+        "main": {
+          "src": "src/main.ts",
+          "handler": "desaturateFrames"
+        }
+      }
+    ]
+  }
 }

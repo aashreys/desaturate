@@ -16,43 +16,34 @@ const ALLOWED_NODE_TYPES = [
   "SLICE",
   "STAR",
   "VECTOR"
-];
-
-const NOTIFICATION_TIME = 3000;
+]
 
 var numDesaturatedNodes = 0;
 
-
-
-// MAIN
-try {
-  if (figma.currentPage.selection.length > 0) {
-    for(const node of figma.currentPage.selection) desaturateNodeTree(node);
-    notifyStatus(numDesaturatedNodes);
-  } else {
-    notifyUI("Nothing selected. Select something with an image fill to desaturate.");
+export function desaturateImage() {
+  // MAIN
+  try {
+    if (figma.currentPage.selection.length > 0) {
+      for(const node of figma.currentPage.selection) desaturateNodeTree(node);
+      notifyStatus(numDesaturatedNodes)
+    } else {
+      figma.notify("🚫 Select at least one layer with an image fill.")
+    }
+  } catch (error) {
+    console.error(error)
   }
-} catch (error) {
-  _logError(error);
+  figma.closePlugin()
 }
-figma.closePlugin();
 
-
-
-// FUNCTIONS
-function notifyStatus(numDesaturatedNodes) {
+function notifyStatus(numDesaturatedNodes: number) {
   if (numDesaturatedNodes > 0) {
-    notifyUI("Desaturated " + numDesaturatedNodes + " image " + (numDesaturatedNodes > 1 ? "fills" : "fill") + ".");
+    figma.notify('🎉')
   } else {
-    notifyUI("Nothing to desaturate. Please check selection.")
+    figma.notify("🚫 Select at least one layer with an image fill.")
   }
 }
 
-function notifyUI(message: string) {
-  figma.notify(message, {timeout: NOTIFICATION_TIME});
-}
-
-function desaturateNodeTree(node) {
+function desaturateNodeTree(node: any) {
   if (isNodeAllowed(node) && isNodeSaturated(node)) {
     _desaturateNode(node); // desaturate current level
   } else {
@@ -66,11 +57,11 @@ function desaturateNodeTree(node) {
   }
 }
 
-function isNodeAllowed(node) {
+function isNodeAllowed(node: SceneNode) {
   return ALLOWED_NODE_TYPES.includes(node.type);
 }
 
-function isNodeSaturated(node) {
+function isNodeSaturated(node: SceneNode) {
   if ("fills" in node) {
     const fills = Array.isArray(node.fills) ? node.fills : [node.fills];
     for (const fill of fills) {
@@ -82,14 +73,14 @@ function isNodeSaturated(node) {
   return false;
 }
 
-function isFillSaturated(fill) {
+function isFillSaturated(fill: any) {
   return fill.type === "IMAGE" && fill.filters.saturation > -1;
 }
 
-function _desaturateNode(node) {
+function _desaturateNode(node: any) {
   _log("Desaturating node:");
   _log(node);
-  const fills = Array.isArray(node.fills) ? _clone(node.fills) : [_clone(node.fills)];
+  const fills: any = Array.isArray(node.fills) ? _clone(node.fills) : [_clone(node.fills)];
   for (const fill of fills) {
     if (isFillSaturated(fill)) {
       _desaturateFill(fill);
@@ -99,21 +90,17 @@ function _desaturateNode(node) {
   node.fills = fills;
 }
 
-function _desaturateFill(fill) {
+function _desaturateFill(fill: any) {
   _log("Desaturating fill:");
   _log(fill);
   fill.filters.saturation = -1;
 }
 
-function _log(object) {
+function _log(object: any) {
   if (IS_LOGGING_ENABLED) console.log(object);
 }
 
-function _logError(error) {
-  console.error(error)
-}
-
-function _clone(val) {
+function _clone(val: any): any {
   const type = typeof val
   if (val === null) {
     return null
