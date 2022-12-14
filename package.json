@@ -20,17 +20,17 @@
     "name": "Desaturate",
     "menu": [
       {
-        "name": "Images",
-        "main": {
-          "src": "src/main.ts",
-          "handler": "desaturateImages"
-        }
-      },
-      {
         "name": "Frames & Groups",
         "main": {
           "src": "src/main.ts",
           "handler": "desaturateFrames"
+        }
+      },
+      {
+        "name": "Image Fills",
+        "main": {
+          "src": "src/main.ts",
+          "handler": "desaturateImages"
         }
       }
     ]
