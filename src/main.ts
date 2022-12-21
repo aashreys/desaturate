@@ -1,4 +1,4 @@
-import { desaturateFrame } from "./desaturate_frame"
+import { desaturateContainer } from "./desaturate_frame"
 import { desaturateImage } from "./desaturate_image"
 
 export function desaturateImages() {
@@ -6,5 +6,5 @@ export function desaturateImages() {
 }
 
 export function desaturateFrames() {
-  desaturateFrame()
+  desaturateContainer()
 }

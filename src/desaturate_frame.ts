@@ -1,11 +1,20 @@
-export function desaturateFrame() {
+export function desaturateContainer() {
   if (figma.currentPage.selection.length > 0) {
-    let frames: Array<FrameNode | GroupNode> = []
+    let containers: Array<FrameNode | GroupNode> = []
     for (let frame of figma.currentPage.selection) {
-      if (frame.type === "FRAME" || frame.type === "GROUP") frames.push(frame)
+      if (frame.type === "FRAME" || frame.type === "GROUP") containers.push(frame)
     }
-    if (frames.length > 0) {
-      for (let frame of frames) _desaturateFrameOrGroup(frame)
+    if (containers.length > 0) {
+      for (let container of containers) {
+        if (container.type === 'GROUP') {
+          _desaturateGroup(container)
+        } 
+        else if (container.type === 'FRAME' && container.layoutMode !== 'NONE') {
+          _desaturateAutoLayout(container)
+        } else {
+          _desaturateFrame(container)  
+        }
+      }
       figma.notify('🎉')
     }
     else {
@@ -18,23 +27,57 @@ export function desaturateFrame() {
   figma.closePlugin()
 }
 
-function _desaturateFrameOrGroup(node: FrameNode | GroupNode) {
-  let desaturateLayer = createDesaturateLayer(node.width, node.height)
-  node.appendChild(desaturateLayer)
-  desaturateLayer.x = 0
-  desaturateLayer.y = 0
-  desaturateLayer.name = "Desaturate Layer"
-  desaturateLayer.locked = true
+function _desaturateGroup(node: GroupNode) {
+  let layer = createDesaturateLayer()
+  layer.constraints = {
+    horizontal: 'STRETCH',
+    vertical: 'STRETCH'
+  }
+  layer.x = node.x
+  layer.y = node.y
+  layer.resize(node.width, node.height)
+  node.appendChild(layer)
 }
 
-function createDesaturateLayer(width: number, height: number): RectangleNode {
+function _desaturateFrame(node: FrameNode) {
+  let layer = createDesaturateLayer()
+  node.appendChild(layer)
+  layer.constraints = {
+    horizontal: 'STRETCH',
+    vertical: 'STRETCH'
+  }
+  layer.x = 0
+  layer.y = 0
+  layer.resize(node.width, node.height)
+}
+
+function _desaturateAutoLayout(node: FrameNode) {
+  let layer = createDesaturateLayer()
+  if (node.itemReverseZIndex) { 
+    node.insertChild(0, layer) 
+  }
+  else {
+    node.appendChild(layer) 
+  }
+  layer.layoutPositioning = 'ABSOLUTE'
+  layer.constraints = {
+    horizontal: 'STRETCH',
+    vertical: 'STRETCH'
+  }
+  layer.x = 0
+  layer.y = 0
+  layer.resize(node.width, node.height)
+}
+
+function createDesaturateLayer(): RectangleNode {
   let layer: RectangleNode = figma.createRectangle()
-  layer.resize(width, height)
   let fill: Paint = {
     type: "SOLID",
     color: {r: 0, g: 0, b: 0},
     blendMode: "SATURATION"
   }
   layer.fills = [fill]
+  layer.name = "Desaturate Layer"
+  layer.locked = true
   return layer
 }
