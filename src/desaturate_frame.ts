@@ -51,8 +51,8 @@ function _desaturateFrame(node: FrameNode) {
   layer.resize(node.width, node.height)
 }
 
-function _desaturateAutoLayout(node: FrameNode) {
-  let layer = createDesaturateLayer()
+function _desaturateAutoLayout(node: any) {
+  let layer = createDesaturateLayer() as any
   if (node.itemReverseZIndex) { 
     node.insertChild(0, layer) 
   }
