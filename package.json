@@ -5,8 +5,8 @@
   "devDependencies": {
     "@create-figma-plugin/build": "^2.1.4",
     "@create-figma-plugin/tsconfig": "^2.1.4",
-    "@figma/plugin-typings": "1.45.0",
-    "typescript": "^4"
+    "@figma/plugin-typings": "^1.45.0",
+    "typescript": "^5"
   },
   "scripts": {
     "build": "build-figma-plugin --typecheck --minify",
