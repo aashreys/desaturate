@@ -1,3 +1,6 @@
+
+const DESATURATE_LAYER_NAME = 'Desaturate Layer'
+
 export function desaturateContainer() {
   if (figma.currentPage.selection.length > 0) {
     let containers: Array<FrameNode | GroupNode> = []
@@ -25,6 +28,14 @@ export function desaturateContainer() {
     figma.notify("🚫 Select at least one frame or group to desaturate.")
   }
   figma.closePlugin()
+}
+
+export function lockDesaturateLayers() {
+  const layers: SceneNode[] = figma.currentPage.findAll(layers => layers.name === DESATURATE_LAYER_NAME)
+  for (const layer of layers) {
+    layer.locked = true
+  }
+  figma.closePlugin('🎉')
 }
 
 function _desaturateGroup(node: GroupNode) {
@@ -77,7 +88,7 @@ function createDesaturateLayer(): RectangleNode {
     blendMode: "SATURATION"
   }
   layer.fills = [fill]
-  layer.name = "Desaturate Layer"
+  layer.name = DESATURATE_LAYER_NAME
   layer.locked = true
   return layer
 }

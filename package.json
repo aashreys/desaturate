@@ -22,15 +22,23 @@
       {
         "name": "Frames & Groups",
         "main": {
-          "src": "src/main.ts",
-          "handler": "desaturateFrames"
+          "src": "src/desaturate_frame.ts",
+          "handler": "desaturateContainer"
         }
       },
       {
         "name": "Image Fills",
         "main": {
-          "src": "src/main.ts",
-          "handler": "desaturateImages"
+          "src": "src/desaturate_image.ts",
+          "handler": "desaturateImage"
+        }
+      },
+      "-",
+      {
+        "name": "Lock Desaturation Layers",
+        "main": {
+          "src": "src/desaturate_frame.ts",
+          "handler": "lockDesaturateLayers"
         }
       }
     ]
