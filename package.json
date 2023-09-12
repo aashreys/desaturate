@@ -41,6 +41,7 @@
           "handler": "lockDesaturateLayers"
         }
       }
-    ]
+    ],
+    "networkAccess": { "allowedDomains": ["none"] }
   }
 }
