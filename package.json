@@ -42,6 +42,7 @@
         }
       }
     ],
-    "networkAccess": { "allowedDomains": ["none"] }
+    "networkAccess": { "allowedDomains": ["none"] },
+    "documentAccess": "dynamic-page"
   }
 }
