@@ -3,9 +3,9 @@
     "@create-figma-plugin/utilities": "^2.1.4"
   },
   "devDependencies": {
-    "@create-figma-plugin/build": "^2.1.4",
-    "@create-figma-plugin/tsconfig": "^2.1.4",
-    "@figma/plugin-typings": "^1.45.0",
+    "@create-figma-plugin/build": "^3",
+    "@create-figma-plugin/tsconfig": "^3",
+    "@figma/plugin-typings": "^1",
     "typescript": "^5"
   },
   "scripts": {
